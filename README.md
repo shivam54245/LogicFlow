@@ -26,21 +26,15 @@ A snappy, modular 2D digital circuit simulator in TypeScript. It features an inf
 
 To keep the simulation fast and maintainable, the codebase is split into three decoupled modules:
 
-┌─────────────────────────────────────────┐
-│              Render Layer               │
-│   (Infinite Canvas, Zoom, Wire Draw)    │
-└────────────────────▲────────────────────┘
-│ Reads Layout & State
-┌────────────────────┴────────────────────┐
-│              Circuit Model              │
-│    (Components, Pins, Nets, Hierarchy)  │
-└────────────────────▲────────────────────┘
-│ Propagates Events
-┌────────────────────┴────────────────────┐
-│            Simulation Core              │
-│    (Event Queue, 4-Valued Resolution)   │
-└─────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Render["Render Layer<br>(Infinite Canvas, Zoom, Wire Draw)"]
+    Model["Circuit Model<br>(Components, Pins, Nets, Hierarchy)"]
+    Core["Simulation Core<br>(Event Queue, 4-Valued Resolution)"]
 
+    Render -->|Reads Layout & State| Model
+    Model -->|Propagates Events| Core
+```
 
 1. **Simulation Core (Headless):** Operates without canvas or DOM dependencies. Runs an event-driven queue to evaluate logic state changes efficiently.
 2. **Circuit Model:** Tracks components, pin connections, nets, and subcircuit definitions.
